@@ -1,6 +1,6 @@
-package com.maryam.personalized_shop_backend;
+package com.maryam.personalized_shop_backend.product;
 
-import com.maryam.personalized_shop_backend.dto.ProductResponse;
+import com.maryam.personalized_shop_backend.product.dto.ProductResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

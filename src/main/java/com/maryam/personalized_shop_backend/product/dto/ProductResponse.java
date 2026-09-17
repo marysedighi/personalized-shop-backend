@@ -1,4 +1,4 @@
-package com.maryam.personalized_shop_backend.dto;
+package com.maryam.personalized_shop_backend.product.dto;
 
 import java.math.BigDecimal;
 
