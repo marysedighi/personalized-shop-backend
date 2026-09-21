@@ -1,10 +1,10 @@
 package com.maryam.personalized_shop_backend.product;
 
+import com.maryam.personalized_shop_backend.product.dto.ProductRequest;
 import com.maryam.personalized_shop_backend.product.dto.ProductResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,5 +19,10 @@ public class ProductController {
         return productService.getProducts();
     }
 
+    @PostMapping
+    public ProductResponse createProduct(
+            @Valid @RequestBody ProductRequest request) {
+        return productService.createProduct(request);
+    }
 
 }
