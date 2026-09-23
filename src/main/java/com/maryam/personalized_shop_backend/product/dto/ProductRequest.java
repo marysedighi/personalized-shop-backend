@@ -11,7 +11,7 @@ public record ProductRequest(
         String name,
 
         @NotNull
-        @Positive
+        @Positive(message = "Price must be positive")
         BigDecimal price
 ) {
 }
