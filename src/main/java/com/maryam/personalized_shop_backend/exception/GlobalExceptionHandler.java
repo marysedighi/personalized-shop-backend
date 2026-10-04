@@ -36,4 +36,16 @@ public class GlobalExceptionHandler {
                 .body(error);
     }
 
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<ApiError> handleProductNotFoundException(ProductNotFoundException e) {
+        ApiError error = new ApiError(
+                HttpStatus.NOT_FOUND.value(),
+                e.getMessage(),
+                Map.of());
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(error);
+    }
+
 }

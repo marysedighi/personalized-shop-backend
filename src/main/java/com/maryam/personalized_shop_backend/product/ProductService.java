@@ -1,5 +1,6 @@
 package com.maryam.personalized_shop_backend.product;
 
+import com.maryam.personalized_shop_backend.exception.ProductNotFoundException;
 import com.maryam.personalized_shop_backend.product.dto.ProductRequest;
 import com.maryam.personalized_shop_backend.product.dto.ProductResponse;
 import jakarta.validation.Valid;
@@ -21,5 +22,12 @@ public class ProductService {
 
     public ProductResponse createProduct(@Valid ProductRequest request) {
         return new ProductResponse(4L, request.name(), request.price());
+    }
+
+    public ProductResponse getProductById(Long id) {
+        return getProducts().stream()
+                .filter(product -> product.id().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new ProductNotFoundException(id));
     }
 }
