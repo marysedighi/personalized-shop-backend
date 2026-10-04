@@ -2,6 +2,7 @@ package com.maryam.personalized_shop_backend.product;
 
 import com.maryam.personalized_shop_backend.product.dto.ProductRequest;
 import com.maryam.personalized_shop_backend.product.dto.ProductResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;
 
+    @Operation(summary = "Get all products")
     @GetMapping
     public List<ProductResponse> getProducts() {
         return productService.getProducts();
