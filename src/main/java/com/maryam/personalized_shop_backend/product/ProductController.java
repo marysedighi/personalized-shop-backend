@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
 
@@ -22,16 +23,21 @@ public class ProductController {
         return productService.getProducts();
     }
 
+    @Operation(summary = "Create a new product")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ProductResponse createProduct(@Valid @RequestBody ProductRequest request) {
         return productService.createProduct(request);
     }
 
+    @Operation(summary = "Get product by ID")
     @GetMapping("/{id}")
     public ProductResponse getProductById(@PathVariable Long id) {
         return productService.getProductById(id);
     }
 
-
+    @PutMapping("/{id}")
+    public ProductResponse updateProductById(@PathVariable Long id, @Valid @RequestBody ProductRequest request) {
+        return productService.updateProductById(id, request);
+    }
 }
