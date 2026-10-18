@@ -61,4 +61,11 @@ public class ProductService {
                 updatedProduct.getPrice()
         );
     }
+
+    public void deleteProductById(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException(id));
+
+        productRepository.delete(product);
+    }
 }

@@ -40,4 +40,11 @@ public class ProductController {
     public ProductResponse updateProductById(@PathVariable Long id, @Valid @RequestBody ProductRequest request) {
         return productService.updateProductById(id, request);
     }
+
+    @Operation(summary = "Delete product by ID")
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteProductById(@PathVariable Long id) {
+        productService.deleteProductById(id);
+    }
 }
