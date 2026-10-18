@@ -4,7 +4,7 @@ services:
     container_name: personalized-shop-postgres
     environment:
         POSTGRES_USER: maryam
-        POSTGRES_PASSWORD: sedighi
+        POSTGRES_PASSWORD: local_dev_password
         POSTGRES_DB: personalized_shop
     ports:
       - "5433:5432"
