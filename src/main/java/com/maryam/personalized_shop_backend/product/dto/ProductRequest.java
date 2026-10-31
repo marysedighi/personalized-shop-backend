@@ -12,6 +12,9 @@ public record ProductRequest(
 
         @NotNull
         @Positive(message = "Price must be positive")
-        BigDecimal price
+        BigDecimal price,
+
+        @NotNull
+        Long categoryId
 ) {
 }

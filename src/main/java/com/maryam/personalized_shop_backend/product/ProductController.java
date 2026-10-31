@@ -7,7 +7,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
 
@@ -36,6 +35,7 @@ public class ProductController {
         return productService.getProductById(id);
     }
 
+    @Operation(summary = "Update product by ID")
     @PutMapping("/{id}")
     public ProductResponse updateProductById(@PathVariable Long id, @Valid @RequestBody ProductRequest request) {
         return productService.updateProductById(id, request);

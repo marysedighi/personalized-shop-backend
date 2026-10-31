@@ -1,6 +1,8 @@
 package com.maryam.personalized_shop_backend.product;
 
-import com.fasterxml.jackson.annotation.JacksonInject;
+import com.maryam.personalized_shop_backend.category.Category;
+import com.maryam.personalized_shop_backend.category.CategoryRepository;
+import com.maryam.personalized_shop_backend.exception.CategoryNotFoundException;
 import com.maryam.personalized_shop_backend.exception.ProductNotFoundException;
 import com.maryam.personalized_shop_backend.product.dto.ProductRequest;
 import com.maryam.personalized_shop_backend.product.dto.ProductResponse;
@@ -14,6 +16,7 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
     public List<ProductResponse> getProducts() {
         return productRepository.findAll()// select * from products
@@ -21,18 +24,27 @@ public class ProductService {
                 .map(product -> new ProductResponse(
                         product.getId(),
                         product.getName(),
-                        product.getPrice()
+                        product.getPrice(),
+                        product.getCategory().getId(),
+                        product.getCategory().getName()
                 ))
                 .toList();
     }
 
     public ProductResponse createProduct(ProductRequest request) {
 
-        Product savedProduct = productRepository.save(new Product(request.name(), request.price()));
+        Category category = categoryRepository.findById(request.categoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found with id: " + request.categoryId()));
 
-        return new ProductResponse(savedProduct.getId(),
+        Product savedProduct = productRepository.save(new Product(request.name(), request.price(), category));
+
+        return new ProductResponse(
+                savedProduct.getId(),
                 savedProduct.getName(),
-                savedProduct.getPrice());
+                savedProduct.getPrice(),
+                savedProduct.getCategory().getId(),
+                savedProduct.getCategory().getName()
+        );
     }
 
     public ProductResponse getProductById(Long id) {
@@ -42,23 +54,30 @@ public class ProductService {
         return new ProductResponse(
                 product.getId(),
                 product.getName(),
-                product.getPrice()
+                product.getPrice(),
+                product.getCategory().getId(),
+                product.getCategory().getName()
         );
     }
 
     public ProductResponse updateProductById(Long id, ProductRequest request) {
 
+        Category category = categoryRepository.findById(request.categoryId())
+                .orElseThrow(() -> new CategoryNotFoundException(request.categoryId()));
+
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(id));
 
-        product.update(request.name(), request.price());
+        product.update(request.name(), request.price(), category);
 
         Product updatedProduct = productRepository.save(product);
 
         return new ProductResponse(
                 updatedProduct.getId(),
                 updatedProduct.getName(),
-                updatedProduct.getPrice()
+                updatedProduct.getPrice(),
+                updatedProduct.getCategory().getId(),
+                updatedProduct.getCategory().getName()
         );
     }
 
