@@ -8,6 +8,7 @@ import com.maryam.personalized_shop_backend.product.dto.ProductRequest;
 import com.maryam.personalized_shop_backend.product.dto.ProductResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class ProductService {
     public ProductResponse createProduct(ProductRequest request) {
 
         Category category = categoryRepository.findById(request.categoryId())
-                .orElseThrow(() -> new RuntimeException("Category not found with id: " + request.categoryId()));
+                .orElseThrow(() -> new CategoryNotFoundException(request.categoryId()));
 
         Product savedProduct = productRepository.save(new Product(request.name(), request.price(), category));
 
@@ -60,6 +61,7 @@ public class ProductService {
         );
     }
 
+    @Transactional
     public ProductResponse updateProductById(Long id, ProductRequest request) {
 
         Category category = categoryRepository.findById(request.categoryId())
@@ -70,15 +72,15 @@ public class ProductService {
 
         product.update(request.name(), request.price(), category);
 
-        Product updatedProduct = productRepository.save(product);
-
         return new ProductResponse(
-                updatedProduct.getId(),
-                updatedProduct.getName(),
-                updatedProduct.getPrice(),
-                updatedProduct.getCategory().getId(),
-                updatedProduct.getCategory().getName()
+                product.getId(),
+                product.getName(),
+                product.getPrice(),
+                product.getCategory().getId(),
+                product.getCategory().getName()
         );
+
+
     }
 
     public void deleteProductById(Long id) {
